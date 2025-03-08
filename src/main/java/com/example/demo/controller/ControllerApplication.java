@@ -15,4 +15,5 @@ public class ControllerApplication {
         Information info = Information.builder().name("Alex").age(12).build();
         return ResponseEntity.ok().body(info);
     }
+    // обновление кода для того чтобы закоммитить
 }
