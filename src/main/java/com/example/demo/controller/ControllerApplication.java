@@ -7,13 +7,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/info/user")
+//@RequestMapping(value = "/info/user")
 public class ControllerApplication {
 
-    @GetMapping
+    @GetMapping(value = "/info/user")
     public ResponseEntity<Information> getInfo() {
         Information info = Information.builder().name("Alex").age(12).build();
         return ResponseEntity.ok().body(info);
     }
-    // обновление кода для того чтобы закоммитить
 }
