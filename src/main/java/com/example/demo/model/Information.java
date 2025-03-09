@@ -1,5 +1,11 @@
 package com.example.demo.model;
 
+
+import lombok.Builder;
+import lombok.Getter;
+
+@Getter
+@Builder
 public class Information {
     private final String name;
     private final int age;
