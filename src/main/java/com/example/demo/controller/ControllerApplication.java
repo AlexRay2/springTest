@@ -15,15 +15,12 @@ import java.util.UUID;
 @RequestMapping("/info")
 public class ControllerApplication {
     Data data = new Data();
-    UUID id1 = UUID.randomUUID();
-    UUID id2 = UUID.randomUUID();
-    UUID id3 = UUID.randomUUID();
     @GetMapping(value = "/user")
     public ResponseEntity<Information> getInfo() {
-        data.hashMap.put(id1, data.Alex);
-        data.hashMap.put(id2, data.Elya);
-        data.hashMap.put(id3, data.Slava);
-        return ResponseEntity.ok().body(data.finder(id2));
+        data.hashMap.put(data.id1, data.Alex);
+        data.hashMap.put(data.id2, data.Elya);
+        data.hashMap.put(data.id3, data.Slava);
+        return ResponseEntity.ok().body(data.finder(data.id2));
     }
     @GetMapping(value = "/users")
     public ResponseEntity<List> getAll(){

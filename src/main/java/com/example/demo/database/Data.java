@@ -11,7 +11,9 @@ public class Data {
     public Information Alex = Information.builder().name("Alex").age(12).build();
     public Information Elya = Information.builder().name("Elya").age(12).build();
     public Information Slava = Information.builder().name("Slava").age(15).build();
-
+    public UUID id1 = UUID.randomUUID();
+    public UUID id2 = UUID.randomUUID();
+    public UUID id3 = UUID.randomUUID();
     public HashMap<UUID, Information> hashMap = new HashMap<>();
 
     public Information finder(UUID id) {
