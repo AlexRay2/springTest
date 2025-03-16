@@ -1,7 +1,6 @@
 package com.example.demo.database;
 
 import com.example.demo.model.Information;
-import org.apache.catalina.LifecycleState;
 
 import java.util.HashMap;
 import java.util.List;
