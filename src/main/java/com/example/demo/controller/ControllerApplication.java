@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.database.Data;
-import com.example.demo.model.Information;
+import com.example.demo.model.Student;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,23 +15,39 @@ public class ControllerApplication {
     Data data = new Data();
 
     @GetMapping("/user/{id}")
-    public ResponseEntity<Information> getInfo(@PathVariable String id) {
+    public ResponseEntity<Student> getInfo(@PathVariable String id) {
         UUID search;
         try {
             search = UUID.fromString(id);
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(Information.builder().age(null).name(null).id(null).build());
+            return ResponseEntity.badRequest().body(null);
         }
 
-        if (!data.hashMap.containsKey(search)) {
-            return ResponseEntity.status(422).body(Information.builder().age(null).name(null).id(null).build());
+        if (!data.hashMap.containsKey(id)) {
+            return ResponseEntity.status(422).body(null);
         }
 
         return ResponseEntity.ok().body(data.hashMap.get(search));
     }
 
     @GetMapping("/users")
-    public ResponseEntity<List<Information>> getAll() {
+    public ResponseEntity<List<Student>> getAll() {
         return ResponseEntity.ok().body(data.allStudents());
     }
+
+    @PostMapping("/update/{id}")
+    public Student updateStudent(@PathVariable UUID id, @RequestBody Student student) {
+        return data.hashMap.put(id, student);
+    }
+
+    @PutMapping("/put/{id}")
+    public Student addStudent(@PathVariable UUID id, @RequestBody Student student) {
+        return data.hashMap.put(id, student);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public Student deleteUser(@PathVariable UUID id) {
+        return data.hashMap.remove(id);
+    }
+
 }

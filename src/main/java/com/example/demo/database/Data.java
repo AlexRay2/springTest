@@ -1,20 +1,20 @@
 package com.example.demo.database;
 
-import com.example.demo.model.Information;
+import com.example.demo.model.Student;
 
 import java.util.*;
 
 public class Data {
-    public Information alex = Information.builder().name("Alex").age(12).id(UUID.fromString("0e759ecc-2535-4ad2-986f-5c8d208d6462")).build();
-    public Information slava = Information.builder().name("Slava").age(15).id(UUID.fromString("17fab18f-9b17-4582-a8bb-b59c53d5f352")).build();
-    public Information elya = Information.builder().name("Elya").age(12).id(UUID.fromString("89826fd9-e00e-434c-9970-a99437e37671")).build();
-    public Map<UUID, Information> hashMap = (Map<UUID, Information>) Map.of(elya.getId(), elya, alex.getId() , alex , slava.getId(), slava);
+    public Student alex = new Student("Alex", "0e759ecc-2535-4ad2-986f-5c8d208d6462", 12);
+    public Student slava = new Student("Alex", "17fab18f-9b17-4582-a8bb-b59c53d5f352", 12);
+    public Student elya = new Student("Alex", "89826fd9-e00e-434c-9970-a99437e37671", 12);
+    public Map<UUID, Student> hashMap = Map.of(UUID.fromString(elya.id()), elya, UUID.fromString(alex.id()), alex, UUID.fromString(slava.id()), slava);
 
-    public Information finder(UUID id) {
+    public Student finder(UUID id) {
         return hashMap.get(id);
     }
 
-    public List<Information> allStudents() {
+    public List<Student> allStudents() {
         return new ArrayList(hashMap.values());
     }
 }
