@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.database.Data;
+import com.example.demo.database.MapMethods;
 import com.example.demo.model.Student;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +12,11 @@ import java.util.UUID;
 @RequestMapping("/info")
 public class ControllerApplication {
 
-    Data data = new Data();
+    private final MapMethods data;
+
+    public ControllerApplication(MapMethods data) {
+        this.data = data;
+    }
 
     @GetMapping("/user/{id}")
     public ResponseEntity<Student> getInfo(@PathVariable String id) {
