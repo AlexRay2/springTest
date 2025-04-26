@@ -23,11 +23,11 @@ public class ControllerApplication {
             return ResponseEntity.badRequest().body(null);
         }
 
-        if (!data.hashMap.containsKey(id)) {
+        if (!data.containsKey(UUID.fromString(id))) {
             return ResponseEntity.status(422).body(null);
         }
 
-        return ResponseEntity.ok().body(data.hashMap.get(search));
+        return ResponseEntity.ok().body(data.get(search));
     }
 
     @GetMapping("/users")
@@ -37,17 +37,17 @@ public class ControllerApplication {
 
     @PostMapping("/update/{id}")
     public Student updateStudent(@PathVariable UUID id, @RequestBody Student student) {
-        return data.hashMap.put(id, student);
+        return data.put(id, student);
     }
 
     @PutMapping("/put/{id}")
     public Student addStudent(@PathVariable UUID id, @RequestBody Student student) {
-        return data.hashMap.put(id, student);
+        return data.put(id, student);
     }
 
     @DeleteMapping("/delete/{id}")
     public Student deleteUser(@PathVariable UUID id) {
-        return data.hashMap.remove(id);
+        return data.remove(id);
     }
 
 }
