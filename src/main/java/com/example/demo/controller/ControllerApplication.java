@@ -1,7 +1,8 @@
 package com.example.demo.controller;
 
-import com.example.demo.database.MapMethods;
 import com.example.demo.model.Student;
+import com.example.demo.service.StudentNotFoundException;
+import com.example.demo.service.StudentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,51 +13,48 @@ import java.util.UUID;
 @RequestMapping("/info")
 public class ControllerApplication {
 
-    private final MapMethods data;
+    private final StudentService studentService;
 
-    public ControllerApplication(MapMethods data) {
-        this.data = data;
+    public ControllerApplication(StudentService studentService) {
+        this.studentService = studentService;
     }
 
     @GetMapping("/user/{id}")
     public ResponseEntity<Student> getInfo(@PathVariable String id) {
-        UUID search;
         try {
-            search = UUID.fromString(id);
+            return ResponseEntity.ok(studentService.getInfo(id));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(null);
-        }
-
-        if (!data.containsKey(UUID.fromString(id))) {
+        } catch (StudentNotFoundException e) {
             return ResponseEntity.status(422).body(null);
         }
-
-        return ResponseEntity.ok().body(data.get(search));
     }
 
     @GetMapping("/users")
     public ResponseEntity<List<Student>> getAll() {
-        return ResponseEntity.ok().body(data.allStudents());
+        return ResponseEntity.ok(studentService.getAll());
     }
 
     @PutMapping("/user/{id}")
-    public Student updateStudent(@PathVariable UUID id, @RequestBody Student student) {
-        if (!data.containsKey(id)) {
-              throw new RuntimeException();
+    public ResponseEntity<Student> updateStudent(@PathVariable UUID id, @RequestBody Student student) {
+        try {
+            return ResponseEntity.ok(studentService.updateStudent(id, student));
+        } catch (StudentNotFoundException e) {
+            return ResponseEntity.status(422).build();
         }
-        return data.put(id, student);
     }
 
     @PostMapping("/user")
-    public Student addStudent(@RequestBody Student student) {
-        UUID id = UUID.randomUUID();
-        Student newStudent = new Student(student.name(), id.toString(), student.age());
-        return data.put(id, newStudent);
+    public ResponseEntity<Student> addStudent(@RequestBody Student student) {
+        return ResponseEntity.ok(studentService.addStudent(student));
     }
 
     @DeleteMapping("/user/{id}")
-    public Student deleteUser(@PathVariable UUID id) {
-        return data.remove(id);
+    public ResponseEntity<Student> deleteUser(@PathVariable UUID id) {
+        try {
+            return ResponseEntity.ok(studentService.deleteUser(id));
+        } catch (StudentNotFoundException e) {
+            return ResponseEntity.status(422).build();
+        }
     }
-
 }
