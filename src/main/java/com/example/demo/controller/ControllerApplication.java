@@ -39,17 +39,22 @@ public class ControllerApplication {
         return ResponseEntity.ok().body(data.allStudents());
     }
 
-    @PostMapping("/update/{id}")
+    @PutMapping("/user/{id}")
     public Student updateStudent(@PathVariable UUID id, @RequestBody Student student) {
+        if (!data.containsKey(id)) {
+              throw new RuntimeException();
+        }
         return data.put(id, student);
     }
 
-    @PutMapping("/put/{id}")
-    public Student addStudent(@PathVariable UUID id, @RequestBody Student student) {
-        return data.put(id, student);
+    @PostMapping("/user")
+    public Student addStudent(@RequestBody Student student) {
+        UUID id = UUID.randomUUID();
+        Student newStudent = new Student(student.name(), id.toString(), student.age());
+        return data.put(id, newStudent);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/user/{id}")
     public Student deleteUser(@PathVariable UUID id) {
         return data.remove(id);
     }
