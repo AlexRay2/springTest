@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.model.Student;
 import com.example.demo.service.StudentNotFoundException;
 import com.example.demo.service.StudentService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,13 +12,10 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/info")
+@RequiredArgsConstructor
 public class ControllerApplication {
 
     private final StudentService studentService;
-
-    public ControllerApplication(StudentService studentService) {
-        this.studentService = studentService;
-    }
 
     @GetMapping("/user/{id}")
     public ResponseEntity<Student> getInfo(@PathVariable String id) {

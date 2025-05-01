@@ -1,4 +1,4 @@
 package com.example.demo.service;
 
-public class StudentNotFoundException extends Throwable {
+public class StudentNotFoundException extends RuntimeException {
 }

@@ -2,32 +2,20 @@ package com.example.demo.service;
 
 import com.example.demo.database.MapMethods;
 import com.example.demo.model.Student;
-import com.example.demo.service.StudentNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
-
-
-
+@RequiredArgsConstructor
 @Service
 public class StudentService {
 
     private final MapMethods data;
 
-    public StudentService(MapMethods data) {
-        this.data = data;
-    }
-
-    public Student getInfo(String id) throws StudentNotFoundException {
-        UUID search;
-        try {
-            search = UUID.fromString(id);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException();
-        }
-
+    public Student getInfo(String id) {
+        UUID search = UUID.fromString(id);
         if (!data.containsKey(search)) {
             throw new StudentNotFoundException();
         }
@@ -39,7 +27,7 @@ public class StudentService {
         return data.allStudents();
     }
 
-    public Student updateStudent(UUID id, Student student) throws StudentNotFoundException {
+    public Student updateStudent(UUID id, Student student) {
         if (!data.containsKey(id)) {
             throw new StudentNotFoundException();
         }
@@ -52,7 +40,7 @@ public class StudentService {
         return data.put(id, newStudent);
     }
 
-    public Student deleteUser(UUID id) throws StudentNotFoundException {
+    public Student deleteUser(UUID id) {
         Student student = data.remove(id);
         if (student == null) {
             throw new StudentNotFoundException();
