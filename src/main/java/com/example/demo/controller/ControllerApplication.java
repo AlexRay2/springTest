@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.Student;
-import com.example.demo.service.StudentNotFoundException;
+import com.example.demo.exceptions.StudentNotFoundException;
 import com.example.demo.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +17,11 @@ public class ControllerApplication {
 
     private final StudentService studentService;
 
-    @GetMapping("/user/{id}")
-    public ResponseEntity<Student> getInfo(@PathVariable String id) {
+
+    @GetMapping("/user/db/{id}")
+    public ResponseEntity<Student> getInfoFromDb(@PathVariable String id) {
         try {
-            return ResponseEntity.ok(studentService.getInfo(id));
+            return ResponseEntity.ok(studentService.findById(UUID.fromString(id)));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(null);
         } catch (StudentNotFoundException e) {
@@ -28,12 +29,14 @@ public class ControllerApplication {
         }
     }
 
+
     @GetMapping("/users")
-    public ResponseEntity<List<Student>> getAll() {
-        return ResponseEntity.ok(studentService.getAll());
+    public ResponseEntity<List<Student>> getAllFromDb() {
+        return ResponseEntity.ok(studentService.findAll());
     }
 
-    @PutMapping("/user/{id}")
+
+    @PutMapping("/user/update/{id}")
     public ResponseEntity<Student> updateStudent(@PathVariable UUID id, @RequestBody Student student) {
         try {
             return ResponseEntity.ok(studentService.updateStudent(id, student));
@@ -41,16 +44,16 @@ public class ControllerApplication {
             return ResponseEntity.status(422).build();
         }
     }
-
-    @PostMapping("/user")
+    
+    @PostMapping("/user/add")
     public ResponseEntity<Student> addStudent(@RequestBody Student student) {
         return ResponseEntity.ok(studentService.addStudent(student));
     }
 
-    @DeleteMapping("/user/{id}")
-    public ResponseEntity<Student> deleteUser(@PathVariable UUID id) {
+    @DeleteMapping("/user/delete/{id}")
+    public ResponseEntity<Integer> deleteUser(@PathVariable UUID id) {
         try {
-            return ResponseEntity.ok(studentService.deleteUser(id));
+            return ResponseEntity.ok(studentService.deleteById(id));
         } catch (StudentNotFoundException e) {
             return ResponseEntity.status(422).build();
         }

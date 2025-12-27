@@ -1,7 +1,9 @@
 package com.example.demo.model;
 
+import java.util.UUID;
+
 public record Student(
         String name,
-        String id,
+        UUID id,
         Integer age) {
 }
